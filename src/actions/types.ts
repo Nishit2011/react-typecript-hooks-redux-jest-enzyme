@@ -1,5 +1,8 @@
+import { getPosts, deletePostById } from "./posts";
+
 export enum ActionTypes {
-  getAllPosts = "getposts",
-  errorAllPosts = "errorAllPosts",
-  postsRequest = "postsrequest",
+  getAllPosts,
+  errorAllPosts,
+  postsRequest,
+  deletePostById,
 }

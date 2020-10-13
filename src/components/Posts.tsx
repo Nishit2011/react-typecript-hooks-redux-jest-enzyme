@@ -2,22 +2,31 @@ import React, { useEffect } from "react";
 import { Button, Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 
-import { getPosts, PostsResponse } from "../actions/index";
+import { getPosts, PostsResponse, deletePostById } from "../actions";
 import { StoreState } from "../reducers/index";
 
 interface PostsProps {
   posts: PostsResponse[];
-  getPosts(): any;
+  getPosts: Function;
+  deletePostById: typeof deletePostById;
 }
 
-interface Item{
-  id: number,
-  title: string
+interface Item {
+  id: number;
+  title: string;
 }
 
-const Posts = ({ posts, getPosts }: PostsProps): JSX.Element => {
-  const renderPosts = ({id, title}: Item): JSX.Element => {
-    return <li key={id}>{title}</li>;
+const Posts = ({
+  posts,
+  getPosts,
+  deletePostById,
+}: PostsProps): JSX.Element => {
+  const renderPosts = ({ id, title }: Item): JSX.Element => {
+    return (
+      <div key={id} onClick={() => deletePostById(id)}>
+        {title}
+      </div>
+    );
   };
   return (
     <div>
@@ -35,7 +44,7 @@ const Posts = ({ posts, getPosts }: PostsProps): JSX.Element => {
       </Grid>
       <Grid container>
         <Grid item xs={5}>
-          {<ul>{posts.map((item) => renderPosts(item))}</ul>}
+          {<div>{posts.map((item) => renderPosts(item))}</div>}
         </Grid>
       </Grid>
     </div>
@@ -46,4 +55,4 @@ const mapStateToProps = ({ posts }: StoreState): { posts: PostsResponse[] } => {
     posts,
   };
 };
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPosts, deletePostById })(Posts);
